@@ -5,8 +5,8 @@ import java.util.Scanner;
 //game's main class
 public class Game {
     round currentRound;   //  contains info of current round
-    static Player player1;     //  contains info about player 1
-    static Player player2;     //  contains info about player 2
+    static player player1;     //  contains info about player 1
+    static player player2;     //  contains info about player 2
     int roundsPlayed;    //  amount of games played between player 1 and 2
 
     // define a scanner
@@ -33,10 +33,10 @@ public class Game {
         thisGame.play(thisGame);
     }
 
-    private static Player createPlayer(int playerNumber) {
-        Player player = null;
+    private static player createPlayer(int playerNumber) {
+        player player = null;
         while(player == null) {
-            player = Player.createPlayer(playerNumber);
+            player = ticTacToe.player.createPlayer(playerNumber);
             if (!player.checkValidUsername()) {
                 System.out.println("Invalid username, please try again. Only use letters, numbers and whitespaces. Max length: 25 characters.");
                 return createPlayer(playerNumber);
@@ -50,20 +50,20 @@ public class Game {
     }
 
     //  assign new created players to ticTacToe object
-    public void assignPlayers(Player[] players) {
+    public void assignPlayers(player[] players) {
         player1 = players[0];
         player2 = players[1];
     }
 
     // play a round of ticTacToe, display game info at the end and request a new game
     public void play(Game thisGame) {
-        Player winner = new round().newRound(thisGame);
+        player winner = new round().newRound(thisGame);
         displayGameStats(winner);
         requestNewGame(thisGame);
     }
 
     // update game stats and display it at the end of a round
-    public void displayGameStats(Player winner) {
+    public void displayGameStats(player winner) {
         updateRoundCounter();
         if (winner != null) {
             updateWinnerCounter(winner); //if round wasn't a tie, update rounds won counter
@@ -74,7 +74,7 @@ public class Game {
     }
 
     // updates roundsWon fields in the winner's player object at the end of a round
-    public void updateWinnerCounter(Player winner) {
+    public void updateWinnerCounter(player winner) {
         if (winner.equals(player1)) {
             player1.roundsWon++;
         }
@@ -136,13 +136,13 @@ public class Game {
 
     //  cast players
     public void castPlayers() {
-        Player tmp = player1;
+        player tmp = player1;
         player1 = player2;
         player2 = tmp;
     }
 
     //  cast a player's symbol
-    public void castSymbols(Player player) {
+    public void castSymbols(player player) {
         if (player.symbol == 'X') {
             player.symbol = 'O';
         }

@@ -118,7 +118,7 @@ public class board {
     }
 
     // check board looking for a winner line, if not return false
-    public boolean checkCombinations(Player player, char[][] board) {
+    public boolean checkCombinations(player player, char[][] board) {
         boolean rows = checkRows(player, board);
         boolean columns = checkColumns(player, board);
         boolean diagonals = checkDiagonals(player, board);
@@ -126,7 +126,7 @@ public class board {
     }
 
     // check rows of the board looking for a winner line, if not return false
-    public boolean checkRows(Player player, char[][] board) {
+    public boolean checkRows(player player, char[][] board) {
         if (board[3][2] == player.symbol && board[3][8] == player.symbol && board[3][14]  == player.symbol) {  // TOP ROW
             return true;
         }
@@ -137,7 +137,7 @@ public class board {
     }
 
     // check columns of the board looking for a winner line, if not return false
-    public boolean checkColumns(Player player, char[][] board) {
+    public boolean checkColumns(player player, char[][] board) {
         if (board[3][2] == player.symbol && board[5][2] == player.symbol && board[7][2]  == player.symbol) {  // LEFT COLUMN
             return true;
         }
@@ -148,7 +148,7 @@ public class board {
     }
 
     //check diagonals of the board looking for a winner line, if not return false
-    public boolean checkDiagonals(Player player, char[][] board) {
+    public boolean checkDiagonals(player player, char[][] board) {
         if (board[3][2] == player.symbol && board[5][8] == player.symbol && board[7][14]  == player.symbol) {  // TOP-LEFT to BOTTOM RIGHT diagonal
             return true;
         }

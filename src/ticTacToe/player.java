@@ -1,7 +1,7 @@
 package ticTacToe;
 import java.util.Scanner;
 
-public class Player {
+public class player {
     String name;    //  player's username
     char symbol;    //  player's symbol (X or O)
     int roundsWon;   //  player's amount of rounds won
@@ -10,8 +10,8 @@ public class Player {
     static Scanner input = new Scanner(System.in);
 
     // generate a new player object
-    public static Player createPlayer(int playerNumber) {
-        Player newPlayer = new Player();
+    public static player createPlayer(int playerNumber) {
+        player newPlayer = new player();
         newPlayer.name = newPlayerUsername(playerNumber);
         newPlayer.symbol = (playerNumber == 1) ? 'X' : 'O';
         newPlayer.roundsWon = 0;

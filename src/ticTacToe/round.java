@@ -3,33 +3,33 @@ package ticTacToe;
 public class round {
 
     int turn;               //current turn number
-    Player whoseTurnIsIt;   //which player plays this turn
+    player whoseTurnIsIt;   //which player plays this turn
 
 
     //  create a new round object
-    public Player newRound(Game thisGame) {
+    public player newRound(Game thisGame) {
         thisGame.currentRound = new round();
         thisGame.currentRound.turn = 1;
         return startNewRound(thisGame); // play a round of tic tac toe
     }
 
     //initialize a new game
-    public Player startNewRound(Game thisGame) {
+    public player startNewRound(Game thisGame) {
         round thisRound = thisGame.currentRound;          // populate local variables
-        Player player1 = thisGame.player1;
-        Player player2 = thisGame.player2;
+        player player1 = thisGame.player1;
+        player player2 = thisGame.player2;
         thisRound.whoseTurnIsIt = player1;     // player 1 always goes first
         board thisBoard = new board().newGameboard();   // create new tic tac toe graphic board
         return playThisRound(thisRound, player1, player2, thisBoard);
     }
 
     // play the round until a winner is found, if not then declare a tie
-    public Player playThisRound(round thisRound, Player player1, Player player2, board thisBoard) {
+    public player playThisRound(round thisRound, player player1, player player2, board thisBoard) {
         thisBoard.displayCurrentBoard(thisBoard.board);     // display board for the first time
         while (thisRound.turn <= 9) {            // iterate through the 9 rounds of a TicTacToe game
             thisRound = nextTurn(thisRound, player1, player2, thisBoard);
             if (thisRound.turn >= 5) {
-                Player winner = checkIfWinner(thisBoard, thisRound);
+                player winner = checkIfWinner(thisBoard, thisRound);
                 if (winner != null) {
                     System.out.println(winner.name + " is the winner!!! CONGRATS!"); // announce winner
                     return winner;
@@ -40,7 +40,7 @@ public class round {
     }
 
     // determine which player plays next, then init a new turn of the game
-    public round nextTurn(round thisRound, Player player1, Player player2, board thisBoard) {
+    public round nextTurn(round thisRound, player player1, player player2, board thisBoard) {
         thisRound.whoseTurnIsIt = checkWhoPlaysNext(player1, player2, thisRound);
         if (thisRound.whoseTurnIsIt.equals(player1)) {
             return  playNextTurn(player1, thisBoard, thisRound);
@@ -51,7 +51,7 @@ public class round {
     }
 
     // determines which player plays next turn
-    public Player checkWhoPlaysNext(Player player1, Player player2, round thisRound) {
+    public player checkWhoPlaysNext(player player1, player player2, round thisRound) {
         if (thisRound.turn % 2 != 0) {
             return player1;
         }
@@ -61,7 +61,7 @@ public class round {
     }
 
     // execute a turn:  request SLOT, update BOARD, show BOARD again, update GAME TURN
-    public round playNextTurn(Player player, board thisBoard, round thisRound) {
+    public round playNextTurn(player player, board thisBoard, round thisRound) {
         System.out.print("it's " + player.name + " turn. You play with " + player.symbol + ".\nPlease select one of " +
                 "the available slots (1 to 9) as displayed above: ");
         char slot = thisBoard.requestSlot(thisBoard);       // request slot
@@ -72,8 +72,8 @@ public class round {
     }
 
     // return true if a player won the round
-    public Player checkIfWinner(board thisBoard, round thisRound) {
-        Player player = thisRound.whoseTurnIsIt;
+    public player checkIfWinner(board thisBoard, round thisRound) {
+        player player = thisRound.whoseTurnIsIt;
         char[][] board = thisBoard.board;
         if (thisBoard.checkCombinations(player, board)) {
             return player;
@@ -82,7 +82,7 @@ public class round {
     }
 
     // declare a tie if no player won the round
-    public Player declareTie() {
+    public player declareTie() {
         System.out.println("The game was a TIE. Better luck next time!");
         return null;
     }
