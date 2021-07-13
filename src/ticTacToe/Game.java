@@ -3,10 +3,10 @@ package ticTacToe;
 import java.util.Scanner;
 
 //game's main class
-public class game {
+public class Game {
     round currentRound;   //  contains info of current round
-    player player1;     //  contains info about player 1
-    player player2;     //  contains info about player 2
+    static Player player1;     //  contains info about player 1
+    static Player player2;     //  contains info about player 2
     int roundsPlayed;    //  amount of games played between player 1 and 2
 
     // define a scanner
@@ -16,30 +16,54 @@ public class game {
     public static void main(String[] args) {
 
         // create a new object for this game
-        game thisGame = new game();
+        Game thisGame = new Game();
+
+        System.out.println("-----------\nTIC TAC TOE\n-----------\nWelcome players! Please introduce yourselves\n");
 
         // create players
-        new player().setUpPlayers(thisGame);
+        player1 = createPlayer(1);
+        player2 = createPlayer(2);
+
+        while(!checkDistinctUsernames(player1.name, player2.name)) {
+            System.out.println("PLAYER 2 username can not be the same as PLAYER 1. Please try another.");
+            player2 = createPlayer(2);
+        }
 
         // play a round of the game
         thisGame.play(thisGame);
     }
 
+    private static Player createPlayer(int playerNumber) {
+        Player player = null;
+        while(player == null) {
+            player = Player.createPlayer(playerNumber);
+            if (!player.checkValidUsername()) {
+                System.out.println("Invalid username, please try again. Only use letters, numbers and whitespaces. Max length: 25 characters.");
+                return createPlayer(playerNumber);
+            }
+        }
+        return player;
+    }
+
+    public static Boolean checkDistinctUsernames(String username1, String username2) {
+        return !username1.equals(username2);
+    }
+
     //  assign new created players to ticTacToe object
-    public void assignPlayers(player[] players) {
+    public void assignPlayers(Player[] players) {
         player1 = players[0];
         player2 = players[1];
     }
 
     // play a round of ticTacToe, display game info at the end and request a new game
-    public void play(game thisGame) {
-        player winner = new round().newRound(thisGame);
+    public void play(Game thisGame) {
+        Player winner = new round().newRound(thisGame);
         displayGameStats(winner);
         requestNewGame(thisGame);
     }
 
     // update game stats and display it at the end of a round
-    public void displayGameStats(player winner) {
+    public void displayGameStats(Player winner) {
         updateRoundCounter();
         if (winner != null) {
             updateWinnerCounter(winner); //if round wasn't a tie, update rounds won counter
@@ -50,7 +74,7 @@ public class game {
     }
 
     // updates roundsWon fields in the winner's player object at the end of a round
-    public void updateWinnerCounter(player winner) {
+    public void updateWinnerCounter(Player winner) {
         if (winner.equals(player1)) {
             player1.roundsWon++;
         }
@@ -65,7 +89,7 @@ public class game {
     }
 
     //  ask players if the wish to play another round, start over with new names or stop playing
-    public void requestNewGame(game thisGame) {
+    public void requestNewGame(Game thisGame) {
         System.out.print("Do you wish to keep playing?\n1 - Play again with same names\n2 - Play again with different names\n"  +
                 "3 - Exit game\nSelect one of the above options (1, 2 or 3) to continue: ");
         int option = getOption();
@@ -102,7 +126,7 @@ public class game {
     }
 
     //  play again with same names but inverted symbols
-    public void newRoundWithSamePlayers(game game) {
+    public void newRoundWithSamePlayers(Game game) {
         System.out.println("Starting new game with same players...");
         castPlayers();
         castSymbols(player1);
@@ -112,13 +136,13 @@ public class game {
 
     //  cast players
     public void castPlayers() {
-        player tmp = player1;
+        Player tmp = player1;
         player1 = player2;
         player2 = tmp;
     }
 
     //  cast a player's symbol
-    public void castSymbols(player player) {
+    public void castSymbols(Player player) {
         if (player.symbol == 'X') {
             player.symbol = 'O';
         }
